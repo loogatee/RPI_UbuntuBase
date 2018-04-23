@@ -2,6 +2,9 @@
 set -x
 
 
+HOSTNAME="bladeone"
+NAMESERVER="192.168.11.1"
+
 
 
 sudo rm -rf rootfs
@@ -14,19 +17,51 @@ cp /tmp/ubuntu-base-14.04.1-core-armhf.tar.gz .
 cd rootfs; sudo tar --numeric-owner -xzvf ../ubuntu-base-14.04.1-core-armhf.tar.gz; cd ..
 
 
-sudo cp Custom_Files/interfaces                      rootfs/etc/network
-sudo cp Custom_Files/resolv.conf                     rootfs/etc
 sudo cp Custom_Files/serial-autodetect-console.conf  rootfs/etc/init
-sudo cp Custom_Files/fstab                           rootfs/etc
 sudo cp Custom_Files/serial-console                  rootfs/bin
-sudo cp Custom_Files/hostname                        rootfs/etc
 sudo cp Custom_Files/1stboot_config.sh               rootfs/root
-sudo cp Custom_Files/passwd                          rootfs/etc
+
+
+#
+#  This creates rootfs/etc/network/interfaces.d/lo:
+#
+sudo /bin/bash -c "echo auto lo >       rootfs/etc/network/interfaces.d/lo"
+sudo sed -i "\$aiface lo inet loopback" rootfs/etc/network/interfaces.d/lo
+
+#
+#  This creates rootfs/etc/network/interfaces.d/eth0:
+#
+sudo /bin/bash -c "echo auto eth0 >   rootfs/etc/network/interfaces.d/eth0"
+sudo sed -i "\$aiface eth0 inet dhcp" rootfs/etc/network/interfaces.d/eth0
+
+#
+#   Removes passwd from root
+#
+sudo sed -i "s/root:x:0/root::0/g" rootfs/etc/passwd
+
+#
+#   Creates /etc/resolv.conf 
+#
+sudo /bin/bash -c "echo nameserver $NAMESERVER >   rootfs/etc/resolv.conf"
+
+#
+#   Creates /etc/hostname
+#
+sudo /bin/bash -c "echo $HOSTNAME >   rootfs/etc/hostname"
+
+#
+#   Creates /etc/fstab
+#
+sudo sed -i "\$aproc     /proc      proc      defaults     0   0" rootfs/etc/fstab
+
+
 
 #
 #    An example of a simple addition to an existing file
+#    Add to the skel file also
 #    
 sudo sed -i "\$aalias dir='ls -CF'" rootfs/root/.bashrc
+sudo sed -i "\$aalias dir='ls -CF'" rootfs/etc/skel/.bashrc
 
 
 
@@ -58,7 +93,7 @@ rm ./ubuntu-base-14.04.1-core-armhf.tar.gz
 #
 #    Copy it to the sdcard
 #
-cd rootfs; sudo rsync -avD * /media/johnr/rootfs; cd ..
+cd rootfs; sudo rsync -avD * /media/johnr/43*; cd ..
 
 
 

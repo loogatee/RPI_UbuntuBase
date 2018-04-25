@@ -93,7 +93,7 @@ rm ./ubuntu-base-14.04.1-core-armhf.tar.gz
 #
 #    Copy it to the sdcard
 #
-cd rootfs; sudo rsync -avD * /media/johnr/43*; cd ..
+cd rootfs; sudo rsync -avD * /media/johnr/rootfs; cd ..
 
 
 

@@ -1,0 +1,102 @@
+
+
+
+1.    make_raspboot.sh
+
+              - Grabs raspbian-stretch-lite
+                   - Writes the .img to SDcard
+
+              - Gets the boot directory from the release
+                   - Copies to local directory 'raspbian_boot'
+
+              - removes all the OS-related files from boot
+                   - *.dtb, kernel*.img, overlays/*
+
+              - All that's left is the stuff needed to boot
+
+2.    make_kernel.sh
+
+              - GIT source
+
+              - make everything, including modules
+                   - kernel7.img, *.dtb, overlays/*.dtbo
+
+3.    make_boot.sh
+
+              - Starts with everything from raspbian_boot
+
+              - Adds all the stuff from kernel build
+                      - kernel7.img, *.dtb, overlays/*.dtbo
+
+              - Modifies cmdline.txt
+
+              - Modifies config.txt
+
+              - Will copy to sdcard (/media/johnr/boot)
+                      - make sure sdcard is inserted, formatted, and good to go
+
+4.    make_rootfs.sh
+
+              - Starts with ubuntu core
+                      - unzip/untar, keep file ownership
+
+              - Add my 3 custom files (via 'cp'):
+                      - /etc/init/serial-autodetect-console.conf
+                      - /bin/serial-console
+                      - /root/1stboot_config.sh
+
+              - Add/Modify a few more files (via shell script):
+                      - /etc/network/interfaces.d/lo
+                      - /etc/network/interfaces.d/eth0
+                      - /etc/passwd
+                      - /etc/resolv.conf
+                      - /etc/hostname
+                      - /etc/fstab
+                      - /root/.bashrc
+                      - /etc/skel/.bashrc
+
+              - Set up /etc/apt/sources.list for debian jessie
+                      - sources.listORG, sources.listJESSIE
+
+              - Copy in the modules from the kernel tree
+
+              - Will copy to sdcard (/media/johnr/rootfs)
+                      - make sure sdcard is inserted, formatted, and good to go
+
+
+5.    make_sdcard.sh
+
+              - Starts with card image from raspbian-stretch-lite
+
+              - delete ext4 partition, then create new one, then format
+                      - 4, 3669, 48
+
+              - use 'gnome-disks' to label rootfs and boot as needed
+
+              - empty boot.  rootfs should already be empty
+
+              - run make_boot.sh
+
+              - run make_rootfs.sh
+
+              - Boot up on Pi3, Execute 1stboot_config.sh
+
+
+6.    make_img.sh
+
+              - Takes SDcard from 'make_sdcard.sh' as Starting
+
+              - Create .img from card using dd with special count
+
+              - Take that .img and burn to RPI Compute Module
+
+
+
+
+
+
+
+
+
+
+

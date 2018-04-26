@@ -1,7 +1,7 @@
 
 
 
-1.    make_raspboot.sh
+1.    make_raspboot.sh    (then meant to be permanent)
 
               - Grabs raspbian-stretch-lite
                    - Writes the .img to SDcard
@@ -14,7 +14,7 @@
 
               - All that's left is the stuff needed to boot
 
-2.    make_kernel.sh
+2.    make_kernel.sh    (mostly permanent, may need to add stuff,etc)
 
               - GIT source
 

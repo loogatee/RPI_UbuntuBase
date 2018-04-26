@@ -1,25 +1,52 @@
 #!/bin/sh
 set -x
 
+# Additions:
+#    - can remove some ttyX conf's in /etc.   Remove them all.
+#
+
 
 HOSTNAME="bladeone"
 NAMESERVER="192.168.11.1"
 
 
+UBUNTU_NAME="ubuntu-base-14.04.5-base-armhf.tar.gz"
+
 
 sudo rm -rf rootfs
 mkdir rootfs
 
-cp /tmp/ubuntu-base-14.04.1-core-armhf.tar.gz .
-#wget http://cdimage.ubuntu.com/ubuntu-base/releases/14.04.1/release/ubuntu-base-14.04.1-core-armhf.tar.gz
+#
+#  one of these 2 to get the raw .gz.
+#
+cp /tmp/$UBUNTU_NAME .
+#wget http://cdimage.ubuntu.com/ubuntu-base/releases/14.04.5/release/$UBUNTU_NAME
 
 
-cd rootfs; sudo tar --numeric-owner -xzvf ../ubuntu-base-14.04.1-core-armhf.tar.gz; cd ..
+cd rootfs; sudo tar --numeric-owner -xzvf ../$UBUNTU_NAME; cd ..
 
 
 sudo cp Custom_Files/serial-autodetect-console.conf  rootfs/etc/init
 sudo cp Custom_Files/serial-console                  rootfs/bin
 sudo cp Custom_Files/1stboot_config.sh               rootfs/root
+
+
+
+sudo mkdir                                           rootfs/usr/share/lua
+sudo mkdir                                           rootfs/usr/share/lua/5.1
+sudo mkdir                                           rootfs/etc/luafcgid
+
+
+sudo cp Custom_Files/LuaFCGI/luafcgid                rootfs/usr/bin
+sudo cp Custom_Files/LuaFCGI/luafcgid.init           rootfs/etc/init.d/luafcgid
+sudo cp Custom_Files/LuaFCGI/luafcgid.lua            rootfs/usr/share/lua/5.1
+sudo cp Custom_Files/LuaFCGI/config.lua              rootfs/etc/luafcgid
+
+sudo rm -f                                           rootfs/etc/init/plymouth*
+sudo rm -f                                           rootfs/etc/init/tty*
+sudo rm -f                                           rootfs/etc/init/mountnfs*
+
+sudo rsync -avD Custom_Files/Monkey                  rootfs/var/local
 
 
 #
@@ -40,9 +67,11 @@ sudo sed -i "\$aiface eth0 inet dhcp" rootfs/etc/network/interfaces.d/eth0
 sudo sed -i "s/root:x:0/root::0/g" rootfs/etc/passwd
 
 #
-#   Creates /etc/resolv.conf 
+#   Creates /etc/resolv.conf.   2nd one is preferable
 #
-sudo /bin/bash -c "echo nameserver $NAMESERVER >   rootfs/etc/resolv.conf"
+rm -f                                               rootfs/etc/resolv.conf
+#sudo /bin/bash -c "echo nameserver $NAMESERVER >   rootfs/etc/resolv.conf"
+sudo ln -s /var/run/resolvconf/resolv.conf          rootfs/etc/resolv.conf
 
 #
 #   Creates /etc/hostname
@@ -74,6 +103,7 @@ sudo sed -i "\$aalias dir='ls -CF'" rootfs/etc/skel/.bashrc
 
 sudo cp rootfs/etc/apt/sources.list rootfs/etc/apt/sources.listORG 
 sudo sed -i "\$adeb http://ftp.us.debian.org/debian/ jessie main contrib non-free" ./rootfs/etc/apt/sources.list
+sudo sed -i "\$adeb http://apt.monkey-project.com/raspbian jessie main" ./rootfs/etc/apt/sources.list
 sudo cp rootfs/etc/apt/sources.list    rootfs/etc/apt/sources.listJESSIE
 sudo cp rootfs/etc/apt/sources.listORG rootfs/etc/apt/sources.list
 
@@ -87,7 +117,7 @@ sudo rsync -avD /tmp/tmpXX/lib/modules/* rootfs/lib/modules/
 #
 #    Can remove the original tarball
 #
-rm ./ubuntu-base-14.04.1-core-armhf.tar.gz
+rm ./$UBUNTU_NAME
 
 
 #

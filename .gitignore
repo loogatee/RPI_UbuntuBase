@@ -1,4 +1,3 @@
 rootfs/*
 boot/*
-X.img
-Z.img
+*.img

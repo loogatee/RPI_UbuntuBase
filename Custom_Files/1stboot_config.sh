@@ -55,6 +55,7 @@ apt-get update
 #
 #    For getting luafcgid started up properly
 #
+ln -s /usr/bin/luafcgidWDEBUG /usr/bin/luafcgid
 ln -s /etc/init.d/luafcgid /etc/rc0.d/K01luafcgid
 ln -s /etc/init.d/luafcgid /etc/rc1.d/K01luafcgid
 ln -s /etc/init.d/luafcgid /etc/rc2.d/S01luafcgid
@@ -72,6 +73,12 @@ cp /var/local/Monkey/fastcgi.conf    /etc/monkey/plugins/fastcgi/fastcgi.conf
 cp /var/local/Monkey/plugins.load    /etc/monkey/plugins.load
 cp /var/local/Monkey/d4.lua          /usr/share/monkey/d4.lua
 cp /var/local/Monkey/dumpenv.lua     /usr/share/monkey/dumpenv.lua
+
+#
+#
+#
+chown www-data:www-data   /var/log/luafcgid
+chown www-data:www-data   /var/log/luafcgid/luafcgid.log
 
 
 #  Streamline a few things here

@@ -35,9 +35,11 @@ sudo cp Custom_Files/1stboot_config.sh               rootfs/root
 sudo mkdir                                           rootfs/usr/share/lua
 sudo mkdir                                           rootfs/usr/share/lua/5.1
 sudo mkdir                                           rootfs/etc/luafcgid
+sudo mkdir                                           rootfs/var/log/luafcgid
 
 
-sudo cp Custom_Files/LuaFCGI/luafcgid                rootfs/usr/bin
+sudo cp Custom_Files/LuaFCGI/luafcgidWDEBUG          rootfs/usr/bin
+sudo cp Custom_Files/LuaFCGI/luafcgidNORMAL          rootfs/usr/bin
 sudo cp Custom_Files/LuaFCGI/luafcgid.init           rootfs/etc/init.d/luafcgid
 sudo cp Custom_Files/LuaFCGI/luafcgid.lua            rootfs/usr/share/lua/5.1
 sudo cp Custom_Files/LuaFCGI/config.lua              rootfs/etc/luafcgid
@@ -82,6 +84,11 @@ sudo /bin/bash -c "echo $HOSTNAME >   rootfs/etc/hostname"
 #   Creates /etc/fstab
 #
 sudo sed -i "\$aproc     /proc      proc      defaults     0   0" rootfs/etc/fstab
+
+#
+#   Creates /var/log/luafcgid/luafcgid.lua
+#
+sudo /bin/bash -c "echo '  ' >   rootfs/var/log/luafcgid/luafcgid.log"
 
 
 

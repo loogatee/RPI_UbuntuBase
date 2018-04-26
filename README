@@ -1,7 +1,7 @@
 
 
 
-1.    make_raspboot.sh    (then meant to be permanent)
+1.    make_raspboot.sh    (do it once, then meant to be permanent)
 
               - Grabs raspbian-stretch-lite
                    - Writes the .img to SDcard
@@ -14,28 +14,29 @@
 
               - All that's left is the stuff needed to boot
 
-2.    make_kernel.sh    (mostly permanent, may need to add stuff,etc)
+
+2.    make_kernel.sh    (mostly permanent, may need to add stuff, drivers, etc)
 
               - GIT source
 
               - make everything, including modules
                    - kernel7.img, *.dtb, overlays/*.dtbo
 
-3.    make_boot.sh
+3.    make_boot.sh      (only as often as the kernel changes)
 
               - Starts with everything from raspbian_boot
 
               - Adds all the stuff from kernel build
                       - kernel7.img, *.dtb, overlays/*.dtbo
 
-              - Modifies cmdline.txt
+              - Modifies cmdline.txt    (plus look at PARTUUID)
 
               - Modifies config.txt
 
               - Will copy to sdcard (/media/johnr/boot)
                       - make sure sdcard is inserted, formatted, and good to go
 
-4.    make_rootfs.sh
+4.    make_rootfs.sh  (comments below are a bit dated as of 4/26 at midnight)
 
               - Starts with ubuntu core
                       - unzip/untar, keep file ownership
@@ -66,29 +67,30 @@
 
 5.    make_sdcard.sh
 
-              - Starts with card image from raspbian-stretch-lite
+              - Starts with card image from raspbian-stretch-lite (for the disk formatting/partitioning)
 
-              - delete ext4 partition, then create new one, then format
-                      - 4, 3669, 48
+              - delete ext4 partition, then create new one, then format  (use gparted for all this)
+                      - 4, 3669, 48                                      (3669 is the magic sauce)
 
               - use 'gnome-disks' to label rootfs and boot as needed
 
-              - empty boot.  rootfs should already be empty
+              - empty boot.  rootfs should already be empty as the result of the reformatting
 
               - run make_boot.sh
 
-              - run make_rootfs.sh
+              - run make_rootfs.sh, unmount/eject/physically remove
 
-              - Boot up on Pi3, Execute 1stboot_config.sh
+              - Insert into Pi.  Power on Pi3. Execute 1stboot_config.sh
 
 
-6.    make_img.sh
-
-              - Takes SDcard from 'make_sdcard.sh' as Starting
+6.    make_img.sh    (you can really do this any time with a card that boots)
 
               - Create .img from card using dd with special count
 
               - Take that .img and burn to RPI Compute Module
+
+                            cd ~/usbboot
+                            sudo ./rpitool
 
 
 

@@ -39,6 +39,8 @@ apt-get -y --force-yes install lua5.1
 apt-get -y --force-yes install lua-socket
 apt-get -y --force-yes install lua-bitop
 apt-get -y --force-yes install luarocks
+apt-get -y --force-yes install libzmq1
+#apt-get -y --force-yes install libzmq-dev
 
 #
 # http://monkey-project.com/documentation/1.6/embedded/raspberry.html
@@ -46,11 +48,26 @@ apt-get -y --force-yes install luarocks
 wget -qO - http://apt.monkey-project.com/monkey.key | sudo apt-key add -
 apt-get -y --force-yes install monkey
 
+
+#
+#    GO TO:  Original + Wheezy Backports
+#
+cp /etc/apt/sources.listWHEEZY /etc/apt/sources.list
+apt-get update
+
+#
+#    This is the payload for adding in Wheezy Backports
+#          (the Jessie version didn't work due to a dependency issue)
+#
+apt-get -y --force-yes install libzmq3
+apt-get -y --force-yes install libzmq3-dev
+
 #
 #   Takes the jessie stuff out.  Goes back to the original
 #
 cp /etc/apt/sources.listORG /etc/apt/sources.list
 apt-get update
+
 
 #
 #    For getting luafcgid started up properly

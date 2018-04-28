@@ -6,7 +6,7 @@ set -x
 #
 
 
-HOSTNAME="bladeone"
+HOSTNAME="bladerunner"
 NAMESERVER="192.168.11.1"
 
 
@@ -112,6 +112,9 @@ sudo cp rootfs/etc/apt/sources.list rootfs/etc/apt/sources.listORG
 sudo sed -i "\$adeb http://ftp.us.debian.org/debian/ jessie main contrib non-free" ./rootfs/etc/apt/sources.list
 sudo sed -i "\$adeb http://apt.monkey-project.com/raspbian jessie main" ./rootfs/etc/apt/sources.list
 sudo cp rootfs/etc/apt/sources.list    rootfs/etc/apt/sources.listJESSIE
+sudo cp rootfs/etc/apt/sources.listORG rootfs/etc/apt/sources.list
+sudo sed -i "\$adeb http://ftp.us.debian.org/debian/ wheezy-backports main contrib non-free" ./rootfs/etc/apt/sources.list
+sudo cp rootfs/etc/apt/sources.list    rootfs/etc/apt/sources.listWHEEZY
 sudo cp rootfs/etc/apt/sources.listORG rootfs/etc/apt/sources.list
 
 

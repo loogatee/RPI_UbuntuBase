@@ -47,8 +47,12 @@ sudo cp Custom_Files/LuaFCGI/config.lua              rootfs/etc/luafcgid
 sudo rm -f                                           rootfs/etc/init/plymouth*
 sudo rm -f                                           rootfs/etc/init/tty*
 sudo rm -f                                           rootfs/etc/init/mountnfs*
+sudo rm -rf                                          rootfs/usr/share/X11/xkb
 
 sudo rsync -avD Custom_Files/Monkey                  rootfs/var/local
+sudo rsync -avD Custom_Files/lzmq/lzmq1              rootfs/var/local
+sudo rsync -avD Custom_Files/lzmq/lzmq2              rootfs/var/local
+sudo rsync -avD Custom_Files/cdc3                    rootfs/var/local
 
 
 #
@@ -133,7 +137,7 @@ rm ./$UBUNTU_NAME
 #
 #    Copy it to the sdcard
 #
-cd rootfs; sudo rsync -avD * /media/johnr/rootfs; cd ..
+cd rootfs; sudo rsync -avD * /media/johnr/rootfs; sync; cd ..
 
 
 

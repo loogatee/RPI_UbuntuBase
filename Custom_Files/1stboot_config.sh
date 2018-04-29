@@ -19,6 +19,7 @@ apt-get -y --force-yes install usbutils
 apt-get -y --force-yes install liblua5.1-0-dev
 apt-get -y --force-yes install make
 apt-get -y --force-yes install libfcgi-dev
+apt-get -y --force-yes install rsync
 
 
 # echo 'running apt-get upgrade'
@@ -81,15 +82,54 @@ ln -s /etc/init.d/luafcgid /etc/rc4.d/S01luafcgid
 ln -s /etc/init.d/luafcgid /etc/rc5.d/S01luafcgid
 ln -s /etc/init.d/luafcgid /etc/rc6.d/K01luafcgid
 
+#
+#  udev rule for ttyUSB
+#
+sudo /bin/bash -c 'echo SUBSYSTEM==\"tty\", ATTRS{idVendor}==\"0403\", ATTRS{idProduct}==\"6001\", MODE=\"0666\" > /etc/udev/rules.d/99-usb-serial.rules'
+
 
 #
 #   This should be all thats needed to customize monkey
 #
+mkdir /usr/share/monkey/cdcX
 cp /var/local/Monkey/default         /etc/monkey/sites/default
 cp /var/local/Monkey/fastcgi.conf    /etc/monkey/plugins/fastcgi/fastcgi.conf
 cp /var/local/Monkey/plugins.load    /etc/monkey/plugins.load
-cp /var/local/Monkey/d4.lua          /usr/share/monkey/d4.lua
-cp /var/local/Monkey/dumpenv.lua     /usr/share/monkey/dumpenv.lua
+
+cp /var/local/Monkey/adget.html      /usr/share/monkey
+cp /var/local/Monkey/index.html      /usr/share/monkey
+cp /var/local/Monkey/ledsX.html      /usr/share/monkey
+rsync -avD /var/local/Monkey/lua     /usr/share/monkey
+rsync -avD /var/local/Monkey/imgs    /usr/share/monkey
+
+#
+#   lzmq stuff
+#
+mkdir                                     /usr/local/lib/lua
+mkdir                                     /usr/local/lib/lua/5.1
+rsync -avD /var/local/lzmq1/*             /usr/local/lib/lua/5.1
+mkdir                                     /usr/share/lua/5.1/lzmq
+rsync -avD /var/local/lzmq2/*             /usr/share/lua/5.1/lzmq
+
+#
+#   cdc3 hostif stuff
+#
+cp /var/local/cdc3/cdc3                   /usr/local/bin
+cp /var/local/cdc3/lutils.lua             /usr/local/bin
+cp /var/local/cdc3/ConfigData.lua         /usr/share/monkey/cdcX
+cp /var/local/cdc3/cdc3_initd             /etc/init.d/cdc3
+
+#
+#  auto startup for cdc3
+#
+#ln -s /etc/init.d/cdc3 /etc/rc0.d/K01cdc3
+#ln -s /etc/init.d/cdc3 /etc/rc1.d/K01cdc3
+ln -s /etc/init.d/cdc3 /etc/rc2.d/S01cdc3
+ln -s /etc/init.d/cdc3 /etc/rc3.d/S01cdc3
+ln -s /etc/init.d/cdc3 /etc/rc4.d/S01cdc3
+ln -s /etc/init.d/cdc3 /etc/rc5.d/S01cdc3
+#ln -s /etc/init.d/cdc3 /etc/rc6.d/K01cdc3
+
 
 #
 #

@@ -141,4 +141,6 @@ fi
 #
 #    Copy it to the sdcard
 #
-#cd rootfs; sudo rsync -avD * /media/johnr/rootfs; cd ..
+cd rootfs; sudo rsync -avD * /media/johnr/rootfs; cd ..
+sync
+

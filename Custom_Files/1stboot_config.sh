@@ -105,7 +105,10 @@ addgroup --gid 245 johnr
 adduser --home /home/johnr --shell /bin/bash --uid 245 --gid 245 johnr
 usermod -aG sudo johnr
 
-
+#
+#   Might as well....
+#
+reboot
 
 
 

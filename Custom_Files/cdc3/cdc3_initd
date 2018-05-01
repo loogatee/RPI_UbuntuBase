@@ -16,3 +16,13 @@ then
     echo "Starting cdc3: "
     /usr/local/bin/cdc3  >> /var/tmp/cdc3.log 2>&1 &
 fi
+
+if [ "$1" = "stop" ]
+then
+    echo "Stopping cdc3: "
+
+    if [ -f /var/run/cdc3 ]; then
+        xx1=`cat /var/run/cdc3`
+        kill -9 $xx1
+    fi                                                                                  
+fi        

@@ -122,13 +122,13 @@ cp /var/local/cdc3/cdc3_initd             /etc/init.d/cdc3
 #
 #  auto startup for cdc3
 #
-#ln -s /etc/init.d/cdc3 /etc/rc0.d/K01cdc3
-#ln -s /etc/init.d/cdc3 /etc/rc1.d/K01cdc3
+ln -s /etc/init.d/cdc3 /etc/rc0.d/K01cdc3
+ln -s /etc/init.d/cdc3 /etc/rc1.d/K01cdc3
 ln -s /etc/init.d/cdc3 /etc/rc2.d/S01cdc3
 ln -s /etc/init.d/cdc3 /etc/rc3.d/S01cdc3
 ln -s /etc/init.d/cdc3 /etc/rc4.d/S01cdc3
 ln -s /etc/init.d/cdc3 /etc/rc5.d/S01cdc3
-#ln -s /etc/init.d/cdc3 /etc/rc6.d/K01cdc3
+ln -s /etc/init.d/cdc3 /etc/rc6.d/K01cdc3
 
 
 #

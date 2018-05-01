@@ -85,7 +85,12 @@ ln -s /etc/init.d/luafcgid /etc/rc6.d/K01luafcgid
 #
 #  udev rule for ttyUSB
 #
-sudo /bin/bash -c 'echo SUBSYSTEM==\"tty\", ATTRS{idVendor}==\"0403\", ATTRS{idProduct}==\"6001\", MODE=\"0666\" > /etc/udev/rules.d/99-usb-serial.rules'
+/bin/bash -c 'echo SUBSYSTEM==\"tty\", ATTRS{idVendor}==\"0403\", ATTRS{idProduct}==\"6001\", MODE=\"0666\" > /etc/udev/rules.d/99-usb-serial.rules'
+#
+# http://vncprado.github.io/udev-rules-for-ttyusb/
+#     udevadm info -a -n /dev/ttyUSB0 | grep '{serial}' | head -n1
+#     SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", ATTRS{serial}=="A6008isP", SYMLINK+="ttyUSB.arduino"
+#
 
 
 #
@@ -144,7 +149,10 @@ addgroup --gid 245 johnr
 adduser --home /home/johnr --shell /bin/bash --uid 245 --gid 245 johnr
 usermod -aG sudo johnr
 
-
+#
+#   Might as well....
+#
+reboot
 
 
 

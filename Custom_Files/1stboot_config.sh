@@ -19,6 +19,7 @@ apt-get -y --force-yes install usbutils
 apt-get -y --force-yes install liblua5.1-0-dev
 apt-get -y --force-yes install make
 apt-get -y --force-yes install libfcgi-dev
+apt-get -y --force-yes install rsync
 
 
 # echo 'running apt-get upgrade'

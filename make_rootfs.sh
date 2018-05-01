@@ -1,13 +1,8 @@
 #!/bin/sh
 set -x
 
-# Additions:
-#    - can remove some ttyX conf's in /etc.   Remove them all.
-#
 
-
-HOSTNAME="bladerunner"
-NAMESERVER="192.168.11.1"
+HOSTNAME="rpi3"
 
 
 UBUNTU_NAME="ubuntu-base-14.04.5-base-armhf.tar.gz"
@@ -17,10 +12,17 @@ sudo rm -rf rootfs
 mkdir rootfs
 
 #
-#  one of these 2 to get the raw .gz.
+#  If it's there in /tmp, then grab it
+#  Else get if from the repo
 #
-cp /tmp/$UBUNTU_NAME .
-#wget http://cdimage.ubuntu.com/ubuntu-base/releases/14.04.5/release/$UBUNTU_NAME
+if test -f /tmp/$UBUNTU_NAME
+then
+    cp /tmp/$UBUNTU_NAME .
+    TMP1=0
+else
+    wget http://cdimage.ubuntu.com/ubuntu-base/releases/14.04.5/release/$UBUNTU_NAME
+    TMP1=1
+fi
 
 
 cd rootfs; sudo tar --numeric-owner -xzvf ../$UBUNTU_NAME; cd ..
@@ -29,6 +31,7 @@ cd rootfs; sudo tar --numeric-owner -xzvf ../$UBUNTU_NAME; cd ..
 sudo cp Custom_Files/serial-autodetect-console.conf  rootfs/etc/init
 sudo cp Custom_Files/serial-console                  rootfs/bin
 sudo cp Custom_Files/1stboot_config.sh               rootfs/root
+sudo cp Custom_Files/failsafe.conf                   rootfs/etc/init
 
 
 
@@ -44,9 +47,9 @@ sudo cp Custom_Files/LuaFCGI/luafcgid.init           rootfs/etc/init.d/luafcgid
 sudo cp Custom_Files/LuaFCGI/luafcgid.lua            rootfs/usr/share/lua/5.1
 sudo cp Custom_Files/LuaFCGI/config.lua              rootfs/etc/luafcgid
 
-sudo rm -f                                           rootfs/etc/init/plymouth*
+#sudo rm -f                                          rootfs/etc/init/plymouth*
 sudo rm -f                                           rootfs/etc/init/tty*
-sudo rm -f                                           rootfs/etc/init/mountnfs*
+#sudo rm -f                                          rootfs/etc/init/mountnfs*
 
 sudo rsync -avD Custom_Files/Monkey                  rootfs/var/local
 
@@ -69,10 +72,9 @@ sudo sed -i "\$aiface eth0 inet dhcp" rootfs/etc/network/interfaces.d/eth0
 sudo sed -i "s/root:x:0/root::0/g" rootfs/etc/passwd
 
 #
-#   Creates /etc/resolv.conf.   2nd one is preferable
+#   Creates /etc/resolv.conf
 #
-rm -f                                               rootfs/etc/resolv.conf
-#sudo /bin/bash -c "echo nameserver $NAMESERVER >   rootfs/etc/resolv.conf"
+sudo rm -f                                          rootfs/etc/resolv.conf
 sudo ln -s /var/run/resolvconf/resolv.conf          rootfs/etc/resolv.conf
 
 #
@@ -125,15 +127,18 @@ sudo rsync -avD /tmp/tmpXX/lib/modules/* rootfs/lib/modules/
 
 
 #
-#    Can remove the original tarball
+#    Can remove the original tarball,
+#    or copy to /tmp if it's not there yet
 #
-rm ./$UBUNTU_NAME
+if test $TMP1 = 1
+then
+    mv ./$UBUNTU_NAME /tmp
+else
+    rm ./$UBUNTU_NAME
+fi
 
 
 #
 #    Copy it to the sdcard
 #
-cd rootfs; sudo rsync -avD * /media/johnr/rootfs; cd ..
-
-
-
+#cd rootfs; sudo rsync -avD * /media/johnr/rootfs; cd ..

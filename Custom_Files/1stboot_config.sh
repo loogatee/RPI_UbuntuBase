@@ -21,6 +21,11 @@ apt-get -y --force-yes install make
 apt-get -y --force-yes install libfcgi-dev
 apt-get -y --force-yes install rsync
 
+apt-get -y --force-yes install iptables
+apt-get -y --force-yes install wireless-tools
+apt-get -y --force-yes install wpasupplicant
+cp /lib/firmware/brcm/wpa_supplicant.conf /etc/wpa_supplicant
+
 
 # echo 'running apt-get upgrade'
 # apt-get -y upgrade
@@ -148,6 +153,17 @@ chown www-data:www-data   /var/log/luafcgid/luafcgid.log
 addgroup --gid 245 johnr
 adduser --home /home/johnr --shell /bin/bash --uid 245 --gid 245 johnr
 usermod -aG sudo johnr
+
+#
+#  Setup routing??
+#
+# sudo sysctl -w net.ipv4.ip_forward=1
+# sudo iptables -A FORWARD -i wlan0 -j ACCEPT
+# sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+# echo "1" > /proc/sys/net/ipv4/ip_dynaddr
+# echo "1" > /proc/sys/net/ipv4/ip_forward
+# iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 
 #
 #   Might as well....

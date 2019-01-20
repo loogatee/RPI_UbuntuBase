@@ -2,13 +2,19 @@
 set -x
 
 
-#RPI_KERNEL_DIR="/opt/linux-rpi"
-
-
-
 #   See the make_raspboot.sh procedure.
 #   
 #   It makes an sdcard with the default raspbian-stretch-lite image
+#
+#  Key line here: (copy/paste)
+#
+
+
+# sudo dd bs=1M if=/home/johnr/Downloads/2018-04-18-raspbian-stretch-lite.img  of=/dev/sdc status=progress conv=fsync
+#
+
+
+
 #         
 #   Here's the output from qparted from this sdcard:  ****  This is a 4GB card ******
 
@@ -18,6 +24,15 @@ set -x
       /dev/sdc1       fat32          /media/johnr/boot      boot            43.10 MiB
       /dev/sdc2       ext4           /media/johnr/rootfs    rootfs          1.69 GiB
       unallocated     unallocated                                           1.95 GiB
+
+    16GB card:
+
+      unallocated     unallocated                                           4.00 MiB
+      /dev/sdc1       fat32          /media/johnr/boot      boot            43.10 MiB
+      /dev/sdc2       ext4           /media/johnr/rootfs    rootfs          1.69 GiB
+      unallocated     unallocated                                           12.75GiB
+
+
 
   Do this:
 
@@ -44,6 +59,13 @@ set -x
       /dev/sdc2       ext4                                                  3.58 GiB
       unallocated     unallocated                                           47 MiB
 
+  Here is the 16GB version:
+
+      unallocated     unallocated                                           4.00 MiB
+      /dev/sdc1       fat32          /media/johnr/boot      boot            43.10 MiB
+      unallocated     unallocated                                           4.90 MiB
+      /dev/sdc2       ext4           /media/johnr/rootfs    rootfs          14.74 GiB
+      unallocated     unallocated                                           49.50 MiB
 
 
 

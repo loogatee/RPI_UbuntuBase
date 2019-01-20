@@ -5,7 +5,7 @@ set -x
 #    - can remove some ttyX conf's in /etc.   Remove them all.
 #
 
-HOSTNAME="rpicml"
+HOSTNAME="rpi3bwall"
 
 
 UBUNTU_NAME="ubuntu-base-14.04.5-base-armhf.tar.gz"
@@ -59,6 +59,9 @@ sudo rsync -avD Custom_Files/lzmq/lzmq1              rootfs/var/local
 sudo rsync -avD Custom_Files/lzmq/lzmq2              rootfs/var/local
 sudo rsync -avD Custom_Files/cdc3                    rootfs/var/local
 
+sudo mkdir                                           rootfs/lib/firmware
+sudo rsync -avD Custom_Files/brcm                    rootfs/lib/firmware
+
 
 #
 #  This creates rootfs/etc/network/interfaces.d/lo:
@@ -71,6 +74,14 @@ sudo sed -i "\$aiface lo inet loopback" rootfs/etc/network/interfaces.d/lo
 #
 sudo /bin/bash -c "echo auto eth0 >   rootfs/etc/network/interfaces.d/eth0"
 sudo sed -i "\$aiface eth0 inet dhcp" rootfs/etc/network/interfaces.d/eth0
+
+#
+#  This creates rootfs/etc/network/interfaces.d/wlan0
+#
+sudo /bin/bash -c "echo auto wlan0 >                              rootfs/etc/network/interfaces.d/wlan0"
+sudo sed -i "\$aiface wlan0 inet dhcp"                            rootfs/etc/network/interfaces.d/wlan0
+sudo sed -i "\$awpa-conf /etc/wpa_supplicant/wpa_supplicant.conf" rootfs/etc/network/interfaces.d/wlan0
+
 
 #
 #   Removes passwd from root

@@ -35,7 +35,11 @@ sudo cp Custom_Files/serial-autodetect-console.conf  rootfs/etc/init
 sudo cp Custom_Files/serial-console                  rootfs/bin
 sudo cp Custom_Files/1stboot_config.sh               rootfs/root
 sudo cp Custom_Files/failsafe.conf                   rootfs/etc/init
+sudo cp Custom_Files/markdown                        rootfs/usr/bin
+sudo cp Custom_Files/sudoers                         rootfs/etc
 
+sudo chown root:root rootfs/etc/sudoers
+sudo chmod 440       rootfs/etc/sudoers
 
 
 sudo mkdir                                           rootfs/usr/share/lua

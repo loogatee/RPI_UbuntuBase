@@ -38,10 +38,12 @@
 
 4.    make_rootfs.sh  (comments below are a bit dated as of 4/26 at midnight)
 
+      Execute make_rootfs.sh as your normal user, not as root.  It will sudo at the appropriate spots
+
               - Starts with ubuntu core
                       - unzip/untar, keep file ownership
 
-              - Add my 3 custom files (via 'cp'):
+              - Add my 3 custom files (via 'cp'):  Allows for login in tty console
                       - /etc/init/serial-autodetect-console.conf
                       - /bin/serial-console
                       - /root/1stboot_config.sh
@@ -63,6 +65,13 @@
 
               - Will copy to sdcard (/media/johnr/rootfs)
                       - make sure sdcard is inserted, formatted, and good to go
+
+
+                      - Notes on Compute Module:
+                          - place into gumstix 'Pi Fast Flash Board'
+                          - mount filesystems using usbboot
+                          - use gparted to format as needed (investigate mkfs.ext4)
+                               - use gnome-disks to label 'rootfs'
 
 
 5.    make_sdcard.sh

@@ -21,12 +21,26 @@ apt-get -y --force-yes install make
 apt-get -y --force-yes install libfcgi-dev
 apt-get -y --force-yes install rsync
 
+apt-get -y --force-yes install ntp
+apt-get -y --force-yes install git
+apt-get -y --force-yes install libffi6
+apt-get -y --force-yes install libffi-dev
+apt-get -y --force-yes install m4
+apt-get -y --force-yes install automake
+
 apt-get -y --force-yes install iptables
 apt-get -y --force-yes install wireless-tools
 apt-get -y --force-yes install wpasupplicant
 cp /lib/firmware/brcm/wpa_supplicant.conf /etc/wpa_supplicant
 
 
+#
+#  static IP for Google TimeServer.  I think ubuntu's are swamped
+#
+sed -i "s/0.ubuntu.pool.ntp.org/216.239.35.0/" /etc/ntp.conf
+
+
+# don't need this, with this version of UbuntuCore
 # echo 'running apt-get upgrade'
 # apt-get -y upgrade
 
@@ -101,14 +115,14 @@ ln -s /etc/init.d/luafcgid /etc/rc6.d/K01luafcgid
 #
 #   This should be all thats needed to customize monkey
 #
-mkdir /usr/share/monkey/cdcX
+#mkdir /usr/share/monkey/cdcX
 cp /var/local/Monkey/default         /etc/monkey/sites/default
 cp /var/local/Monkey/fastcgi.conf    /etc/monkey/plugins/fastcgi/fastcgi.conf
 cp /var/local/Monkey/plugins.load    /etc/monkey/plugins.load
 
-cp /var/local/Monkey/adget.html      /usr/share/monkey
-cp /var/local/Monkey/index.html      /usr/share/monkey
-cp /var/local/Monkey/ledsX.html      /usr/share/monkey
+#cp /var/local/Monkey/adget.html      /usr/share/monkey
+#cp /var/local/Monkey/index.html      /usr/share/monkey
+#cp /var/local/Monkey/ledsX.html      /usr/share/monkey
 rsync -avD /var/local/Monkey/lua     /usr/share/monkey
 rsync -avD /var/local/Monkey/imgs    /usr/share/monkey
 
@@ -124,21 +138,17 @@ rsync -avD /var/local/lzmq2/*             /usr/share/lua/5.1/lzmq
 #
 #   cdc3 hostif stuff
 #
-cp /var/local/cdc3/cdc3                   /usr/local/bin
-cp /var/local/cdc3/lutils.lua             /usr/local/bin
-cp /var/local/cdc3/ConfigData.lua         /usr/share/monkey/cdcX
-cp /var/local/cdc3/cdc3_initd             /etc/init.d/cdc3
-
-#
-#  auto startup for cdc3
-#
-ln -s /etc/init.d/cdc3 /etc/rc0.d/K01cdc3
-ln -s /etc/init.d/cdc3 /etc/rc1.d/K01cdc3
-ln -s /etc/init.d/cdc3 /etc/rc2.d/S01cdc3
-ln -s /etc/init.d/cdc3 /etc/rc3.d/S01cdc3
-ln -s /etc/init.d/cdc3 /etc/rc4.d/S01cdc3
-ln -s /etc/init.d/cdc3 /etc/rc5.d/S01cdc3
-ln -s /etc/init.d/cdc3 /etc/rc6.d/K01cdc3
+#cp /var/local/cdc3/cdc3                   /usr/local/bin
+#cp /var/local/cdc3/lutils.lua             /usr/local/bin
+#cp /var/local/cdc3/ConfigData.lua         /usr/share/monkey/cdcX
+#cp /var/local/cdc3/cdc3_initd             /etc/init.d/cdc3
+#ln -s /etc/init.d/cdc3 /etc/rc0.d/K01cdc3
+#ln -s /etc/init.d/cdc3 /etc/rc1.d/K01cdc3
+#ln -s /etc/init.d/cdc3 /etc/rc2.d/S01cdc3
+#ln -s /etc/init.d/cdc3 /etc/rc3.d/S01cdc3
+#ln -s /etc/init.d/cdc3 /etc/rc4.d/S01cdc3
+#ln -s /etc/init.d/cdc3 /etc/rc5.d/S01cdc3
+#ln -s /etc/init.d/cdc3 /etc/rc6.d/K01cdc3
 
 
 #
@@ -146,6 +156,14 @@ ln -s /etc/init.d/cdc3 /etc/rc6.d/K01cdc3
 #
 chown www-data:www-data   /var/log/luafcgid
 chown www-data:www-data   /var/log/luafcgid/luafcgid.log
+
+#
+#
+#
+chmod 777 /opt
+git clone https://github.com/mascarenhas/alien.git /opt/alien
+cd /opt/alien; luarocks install alien FFI_LIBDIR=/usr/lib/arm-linux-gnueabihf
+
 
 
 #  Streamline a few things here

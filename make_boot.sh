@@ -15,6 +15,13 @@ cd boot; cp $RPI_KERNEL_DIR/arch/arm/boot/kernel7.img .; cd ..
 
 cd boot; cp $RPI_KERNEL_DIR/arch/arm/boot/dts/*.dtb .; cd ..
 
+if test -d boot/overlays
+then
+    rmdir --ignore-fail-on-non-empty boot/overlays
+fi
+
+mkdir boot/overlays
+
 cd boot/overlays; cp $RPI_KERNEL_DIR/arch/arm/boot/dts/overlays/*.dtbo .; cd ../..
 
 
@@ -26,7 +33,7 @@ cd boot/overlays; cp $RPI_KERNEL_DIR/arch/arm/boot/dts/overlays/*.dtbo .; cd ../
 #       And then does a capture on just the hexdigits of the PARTUUID
 #
 
-Y=`blkid /dev/sdc2`
+Y=`sudo blkid /dev/sdc2`
 Z=`echo "S='" $Y "'; print(string.match(S,'(...........). $'))" | /usr/bin/lua`
 
 

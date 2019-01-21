@@ -34,6 +34,12 @@ apt-get -y --force-yes install wpasupplicant
 cp /lib/firmware/brcm/wpa_supplicant.conf /etc/wpa_supplicant
 
 
+apt-get -y --force-yes install build-essential
+apt-get -y --force-yes install curl
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+
 #
 #  static IP for Google TimeServer.  I think ubuntu's are swamped
 #
@@ -182,6 +188,7 @@ usermod -aG sudo johnr
 # echo "1" > /proc/sys/net/ipv4/ip_dynaddr
 # echo "1" > /proc/sys/net/ipv4/ip_forward
 # iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+
 
 #
 #   Might as well....

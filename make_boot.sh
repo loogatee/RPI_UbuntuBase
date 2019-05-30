@@ -28,6 +28,10 @@ cd boot/overlays; cp $RPI_KERNEL_DIR/arch/arm/boot/dts/overlays/*.dtbo .; cd ../
 #
 #   S=' /dev/sdc2: LABEL="rootfs" UUID="079af89b-9e8d-4e2d-9460-8c74aebd193a" TYPE="ext4" PARTUUID="c5474294-02" '
 #
+#   print(string.match(S,'(...........). $'))
+#
+#          results in:  c5474294
+#
 #   matches:
 #       effectively matches the last 13 chars in the above string
 #       And then does a capture on just the hexdigits of the PARTUUID

@@ -1,3 +1,5 @@
 rootfs/*
+rootfsForCopying/*
 boot/*
 *.img
+ServerRootfs

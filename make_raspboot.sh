@@ -24,6 +24,7 @@ set -x
 #  (***** TAKES  LONG TIME TO RUN ******)
 #
 #sudo dd bs=1M if=2018-04-18-raspbian-stretch-lite.img  of=/dev/sdc status=progress conv=fsync
+#sudo dd bs=2M if=2018-04-18-raspbian-stretch-lite.img  of=/dev/sdc status=progress conv=fsync
 
 
 #

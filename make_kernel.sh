@@ -20,6 +20,7 @@ export KERNEL=kernel7
 cd $RPI_KERNEL_DIR; make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2709_defconfig
 cd $RPI_KERNEL_DIR; make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage modules dtbs -j6
 cd $RPI_KERNEL_DIR; scripts/mkknlimg arch/arm/boot/zImage arch/arm/boot/kernel7.img
+cd $RPI_KERNEL_DIR; make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bzImage
 
 
 #

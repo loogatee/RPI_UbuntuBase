@@ -1,5 +1,13 @@
 
+---
 
+# Ubuntu Base on Raspberry Pi
+
+---
+
+![pic01](./img_4342.jpg)
+
+---
 
 1.    make_raspboot.sh    (do it once, then meant to be permanent)
 

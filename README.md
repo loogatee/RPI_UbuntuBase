@@ -84,7 +84,8 @@
 
 5.    make_sdcard.sh
 
-              - Starts with card image from raspbian-stretch-lite (for the disk formatting/partitioning)
+              - Starts with card image from raspbian-stretch-lite
+                (for the disk formatting/partitioning)
 
               - delete ext4 partition, then create new one, then format  (use gparted for all this)
                       - 4, 3669, 48                                      (3669 is the magic sauce)

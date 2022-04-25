@@ -11,7 +11,7 @@ This is my Raspberry Pi setup for monitoring temperature and
 battery registers in my Hymer Class B van.
 
 Power input is 12v from the coach batteries.   I have a POE
-setup which allows for a 4G Modem/Router.
+setup which allows for a 4G Modem/Router/AccessPoint.
 
 Not shown is a USB-to-RS485 cable that interfaces to the
 epever solar charger.

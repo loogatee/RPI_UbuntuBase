@@ -7,6 +7,15 @@
 
 ![pic01](./img_4342.jpg)
 
+This is my Raspberry Pi setup for monitoring temperature and
+battery registers in my Hymer Class B van.
+
+Power input is 12v from the coach batteries.   I have a POE
+setup which allows for a 4G Modem/Router.
+
+Not shown is a USB-to-RS485 cable that interfaces to the
+epever solar charger.
+
 ---
 
 1.    make_raspboot.sh    (do it once, then meant to be permanent)

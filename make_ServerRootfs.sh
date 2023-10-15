@@ -46,7 +46,6 @@ cd ServerRootfs; sudo rsync -avD /home/ubuntu_server_18.04.1/* .; cd ..
 #sudo rsync -avD Custom_Files/Monkey                  ServerRootfs/var/local
 #sudo rsync -avD Custom_Files/lzmq/lzmq1              ServerRootfs/var/local
 #sudo rsync -avD Custom_Files/lzmq/lzmq2              ServerRootfs/var/local
-#sudo rsync -avD Custom_Files/cdc3                    ServerRootfs/var/local
 
 sudo mkdir                                           ServerRootfs/lib/firmware
 sudo rsync -avD Custom_Files/brcm                    ServerRootfs/lib/firmware
@@ -121,9 +120,6 @@ sudo rsync -avD Custom_Files/brcm                    ServerRootfs/lib/firmware
 #sudo sed -i "\$adeb http://ftp.us.debian.org/debian/ jessie main contrib non-free" ./ServerRootfs/etc/apt/sources.list
 #sudo sed -i "\$adeb http://apt.monkey-project.com/raspbian jessie main" ./ServerRootfs/etc/apt/sources.list
 #sudo cp ServerRootfs/etc/apt/sources.list    ServerRootfs/etc/apt/sources.listJESSIE
-#sudo cp ServerRootfs/etc/apt/sources.listORG ServerRootfs/etc/apt/sources.list
-#sudo sed -i "\$adeb http://ftp.us.debian.org/debian/ wheezy-backports main contrib non-free" ./ServerRootfs/etc/apt/sources.list
-#sudo cp ServerRootfs/etc/apt/sources.list    ServerRootfs/etc/apt/sources.listWHEEZY
 #sudo cp ServerRootfs/etc/apt/sources.listORG ServerRootfs/etc/apt/sources.list
 
 

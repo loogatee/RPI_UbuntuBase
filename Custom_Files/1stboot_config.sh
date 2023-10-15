@@ -69,30 +69,23 @@ apt-get -y --force-yes install libzmq1
 #apt-get -y --force-yes install libzmq-dev
 
 #
-# http://monkey-project.com/documentation/1.6/embedded/raspberry.html
-#
-wget -qO - http://apt.monkey-project.com/monkey.key | sudo apt-key add -
-apt-get -y --force-yes install monkey
-
-
-#
-#    GO TO:  Original + Wheezy Backports
-#
-cp /etc/apt/sources.listWHEEZY /etc/apt/sources.list
-apt-get update
-
-#
-#    This is the payload for adding in Wheezy Backports
-#          (the Jessie version didn't work due to a dependency issue)
-#
-apt-get -y --force-yes install libzmq3
-apt-get -y --force-yes install libzmq3-dev
-
-#
 #   Takes the jessie stuff out.  Goes back to the original
 #
 cp /etc/apt/sources.listORG /etc/apt/sources.list
 apt-get update
+
+#
+#    Install Monkey and libzmq3 from the stored .debs
+#
+dpkg -i /root/debs/libzmq3_3.2.3+dfsg-2~bpo70+1_armhf.deb
+apt-get install -f 
+
+dpkg -i /root/debs/libzmq3-dev_3.2.3+dfsg-2~bpo70+1_armhf.deb
+apt-get install -f 
+
+dpkg -i /root/debs/monkey_1.6.7-1_armhf.deb
+apt-get install -f 
+
 
 
 #
@@ -140,21 +133,6 @@ mkdir                                     /usr/local/lib/lua/5.1
 rsync -avD /var/local/lzmq1/*             /usr/local/lib/lua/5.1
 mkdir                                     /usr/share/lua/5.1/lzmq
 rsync -avD /var/local/lzmq2/*             /usr/share/lua/5.1/lzmq
-
-#
-#   cdc3 hostif stuff
-#
-#cp /var/local/cdc3/cdc3                   /usr/local/bin
-#cp /var/local/cdc3/lutils.lua             /usr/local/bin
-#cp /var/local/cdc3/ConfigData.lua         /usr/share/monkey/cdcX
-#cp /var/local/cdc3/cdc3_initd             /etc/init.d/cdc3
-#ln -s /etc/init.d/cdc3 /etc/rc0.d/K01cdc3
-#ln -s /etc/init.d/cdc3 /etc/rc1.d/K01cdc3
-#ln -s /etc/init.d/cdc3 /etc/rc2.d/S01cdc3
-#ln -s /etc/init.d/cdc3 /etc/rc3.d/S01cdc3
-#ln -s /etc/init.d/cdc3 /etc/rc4.d/S01cdc3
-#ln -s /etc/init.d/cdc3 /etc/rc5.d/S01cdc3
-#ln -s /etc/init.d/cdc3 /etc/rc6.d/K01cdc3
 
 
 #

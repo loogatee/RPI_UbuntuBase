@@ -39,6 +39,9 @@ sudo cp Custom_Files/failsafe.conf                   rootfs/etc/init
 sudo cp Custom_Files/markdown                        rootfs/usr/bin
 sudo cp Custom_Files/sudoers                         rootfs/etc
 
+sudo mkdir                                           rootfs/root/debs
+sudo cp Custom_Files/debs/*                          rootfs/root/debs
+
 sudo chown root:root rootfs/etc/sudoers
 sudo chmod 440       rootfs/etc/sudoers
 
@@ -62,7 +65,6 @@ sudo rm -f                                           rootfs/etc/init/tty*
 sudo rsync -avD Custom_Files/Monkey                  rootfs/var/local
 sudo rsync -avD Custom_Files/lzmq/lzmq1              rootfs/var/local
 sudo rsync -avD Custom_Files/lzmq/lzmq2              rootfs/var/local
-sudo rsync -avD Custom_Files/cdc3                    rootfs/var/local
 
 sudo mkdir                                           rootfs/lib/firmware
 sudo rsync -avD Custom_Files/brcm                    rootfs/lib/firmware
@@ -137,9 +139,6 @@ sudo cp rootfs/etc/apt/sources.list rootfs/etc/apt/sources.listORG
 sudo sed -i "\$adeb http://ftp.us.debian.org/debian/ jessie main contrib non-free" ./rootfs/etc/apt/sources.list
 sudo sed -i "\$adeb http://apt.monkey-project.com/raspbian jessie main" ./rootfs/etc/apt/sources.list
 sudo cp rootfs/etc/apt/sources.list    rootfs/etc/apt/sources.listJESSIE
-sudo cp rootfs/etc/apt/sources.listORG rootfs/etc/apt/sources.list
-sudo sed -i "\$adeb http://ftp.us.debian.org/debian/ wheezy-backports main contrib non-free" ./rootfs/etc/apt/sources.list
-sudo cp rootfs/etc/apt/sources.list    rootfs/etc/apt/sources.listWHEEZY
 sudo cp rootfs/etc/apt/sources.listORG rootfs/etc/apt/sources.list
 
 
